@@ -27,34 +27,40 @@ public class DirectoryCleaner {
 
 	private static void cleaningProcess() {
 		System.out.println("\n\tStarting the cleaning process\n");
-		int osType = getOSType();
-		getDirectory(osType);
+		String directoryPath = getDirectory();
+		stepupDirectory(directoryPath);
 	}
 
 
-	private static int getOSType() {
-		System.out.print("\nWhat type OS are you are you running 0 - for windows and 1 - Unix: ");
-		int type = in.nextInt();
-		while(!(type == 0 || type == 1)) {
-			System.out.print("\nPlease enter a valid input: ");
-			type = in.nextInt();
-		}
-		return type;
+	private static void stepupDirectory(String directoryPath) {
+		System.out.print("\nEnter the name of the folder you want to create: ");
+		String folderName = in.next();
+		if(folderName.equalsIgnoreCase("exit")) {
+				System.exit(0);
+			}
+		File subDirectory = new File(directoryPath + File.pathSeparator + folderName);
+		subDirectory.mkdir();
+		
 	}
 
-	private static void getDirectory(int osType) {
-		try {
+	private static String getDirectory() {
+	
 			System.out.print("Enter the exact directory path that you want to clean :-  ");
 			String pathinput = in.next();
+			while(true) {
 			if(pathinput.equalsIgnoreCase("exit")) {
 				System.exit(0);
 			}
 			File path = new File(pathinput);
-			if(!(path.isDirectory())) {
-				
+			if(path.isDirectory()) {
+				return pathinput;
+			}
+			else {
+				System.out.println("Invalid name!!!!!");
+				System.out.print("\nPlease enter a valid path- ");
+				pathinput = in.next();
 			}
 		}
-		
 	}
 
 	private static void tutorialHelp() {
